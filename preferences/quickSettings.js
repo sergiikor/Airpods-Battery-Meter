@@ -7,7 +7,7 @@ import GObject from 'gi://GObject';
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 export const  QuickSettings = GObject.registerClass({
-    GTypeName: 'BluetoothBatteryMeter_QuickSettings',
+    GTypeName: 'AirpodsBatteryMeter_QuickSettings',
     Template: GLib.Uri.resolve_relative(
         import.meta.url, '../ui/quickSettings.ui', GLib.UriFlags.NONE
     ),

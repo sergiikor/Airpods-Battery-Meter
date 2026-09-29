@@ -8,7 +8,7 @@ import GObject from 'gi://GObject';
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const  CustomizeRow = GObject.registerClass({
-    GTypeName: 'BluetoothBatteryMeter_CustomizeRow',
+    GTypeName: 'AirpodsBatteryMeter_CustomizeRow',
 }, class CustomizeRow extends Adw.ActionRow {
     constructor(settings, level, idx, colorKey) {
         super({});
@@ -102,7 +102,7 @@ const  CustomizeRow = GObject.registerClass({
 });
 
 export const  BatteryWidgetSettings = GObject.registerClass({
-    GTypeName: 'BluetoothBatteryMeter_BatteryWidgetSettings',
+    GTypeName: 'AirpodsBatteryMeter_BatteryWidgetSettings',
     Template: GLib.Uri.resolve_relative(
         import.meta.url, '../ui/batteryWidgetSettings.ui', GLib.UriFlags.NONE
     ),

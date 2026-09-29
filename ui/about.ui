@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<interface domain="Bluetooth-Battery-Meter@maniacx.github.com">
+<interface domain="Airpods-Battery-Meter@sergii">
   <template class="BBM_About" parent="AdwPreferencesPage">
     <property name="name">about</property>
     <property name="title" translatable="yes">About</property>

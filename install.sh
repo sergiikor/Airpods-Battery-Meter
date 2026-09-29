@@ -3,8 +3,8 @@
 # Change working directory to project folder
 cd "${0%/*}"
 
-EXT_NAME="Bluetooth Battery Meter"
-EXT_UUID="Bluetooth-Battery-Meter@maniacx.github.com"
+EXT_NAME="Airpods Battery Meter"
+EXT_UUID="Airpods-Battery-Meter@sergii"
 
 if ! command -v msgfmt &> /dev/null
 then

@@ -10,7 +10,7 @@ import {supportedIcons} from '../lib/widgets/iconGroups.js';
 import * as Helper from '../lib/upower/upowerHelper.js';
 
 const  ConfigureWindow = GObject.registerClass({
-    GTypeName: 'BluetoothBatteryMeter_UPowerConfigureWindow',
+    GTypeName: 'AirpodsBatteryMeter_UPowerConfigureWindow',
 }, class ConfigureWindow extends Adw.Window {
     _init(settings, deviceItem, pathInfo, parentWindow) {
         super._init({
@@ -171,7 +171,7 @@ const  ConfigureWindow = GObject.registerClass({
 );
 
 const  DeviceItem = GObject.registerClass({
-    GTypeName: 'BluetoothBatteryMeter_UPowerDeviceItem',
+    GTypeName: 'AirpodsBatteryMeter_UPowerDeviceItem',
 }, class DeviceItem extends Adw.ActionRow {
     constructor(settings, deviceItem, pathInfo, presentDevices) {
         super({});
@@ -242,7 +242,7 @@ const  DeviceItem = GObject.registerClass({
 
 
 export const  UpowerDevices = GObject.registerClass({
-    GTypeName: 'BluetoothBatteryMeter_UpowerDeviceUI',
+    GTypeName: 'AirpodsBatteryMeter_UpowerDeviceUI',
     Template: GLib.Uri.resolve_relative(
         import.meta.url, '../ui/upowerDevices.ui', GLib.UriFlags.NONE
     ),

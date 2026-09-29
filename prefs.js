@@ -19,7 +19,7 @@ Gio._promisify(Gio.DBusProxy, 'new_for_bus');
 Gio._promisify(Gio.DBusProxy.prototype, 'call');
 Gio._promisify(Gio.DBusConnection.prototype, 'call');
 
-export default class BluetoothBatteryMeterPrefs extends ExtensionPreferences {
+export default class AirpodsBatteryMeterPrefs extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         const iconTheme = Gtk.IconTheme.get_for_display(window.get_display());
         const iconsDirectory = this.dir.get_child('icons').get_path();

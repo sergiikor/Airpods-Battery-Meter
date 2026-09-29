@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<interface domain="Bluetooth-Battery-Meter@maniacx.github.com">
-  <template class="BluetoothBatteryMeter_BudsLinkCompanion" parent="AdwPreferencesPage">
+<interface domain="Airpods-Battery-Meter@sergii">
+  <template class="AirpodsBatteryMeter_BudsLinkCompanion" parent="AdwPreferencesPage">
     <property name="name">BudsLinkCompanion</property>
     <property name="title" translatable="yes">BudsLink Companion</property>
     <property name="icon-name">bbm-earbuds-stem-symbolic</property>

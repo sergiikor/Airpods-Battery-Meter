@@ -10,11 +10,11 @@ Gio._promisify(Gio.DBusConnection.prototype, 'call');
 Gio._promisify(Gio.InputStream.prototype, 'read_bytes_async');
 Gio._promisify(Gio.OutputStream.prototype, 'write_all_async');
 
-export default class BluetoothBatteryMeterExtension extends Extension {
+export default class AirpodsBatteryMeterExtension extends Extension {
     enable() {
         this._settings = this.getSettings();
         this._btBatteryMeter =
-            new BluetoothToggle.BluetoothBatteryMeter(this._settings, this.path, this.uuid);
+            new BluetoothToggle.AirpodsBatteryMeter(this._settings, this.path, this.uuid);
     }
 
     disable() {

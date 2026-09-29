@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<interface domain="Bluetooth-Battery-Meter@maniacx.github.com">
-  <template class="BluetoothBatteryMeter_BatteryWidgetSettings" parent="AdwPreferencesPage">
+<interface domain="Airpods-Battery-Meter@sergii">
+  <template class="AirpodsBatteryMeter_BatteryWidgetSettings" parent="AdwPreferencesPage">
     <property name="name">Battery Widget Settings</property>
     <property name="title" translatable="yes">Battery Widget Settings</property>
     <property name="icon-name">bbm-battery-widget-symbolic</property>

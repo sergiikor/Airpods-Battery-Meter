@@ -14,7 +14,7 @@ const BUDSLINK_INTERFACE = 'io.github.maniacx.BudsLink.DeviceManager';
 
 
 export const  BudsLinkCompanion = GObject.registerClass({
-    GTypeName: 'BluetoothBatteryMeter_BudsLinkCompanion',
+    GTypeName: 'AirpodsBatteryMeter_BudsLinkCompanion',
     Template: GLib.Uri.resolve_relative(
         import.meta.url, '../ui/budslinkCompanion.ui', GLib.UriFlags.NONE
     ),

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="gnome-shell-extensions">
-    <schema path="/org/gnome/shell/extensions/Bluetooth-Battery-Meter/" id="org.gnome.shell.extensions.Bluetooth-Battery-Meter">
+    <schema path="/org/gnome/shell/extensions/Airpods-Battery-Meter/" id="org.gnome.shell.extensions.Airpods-Battery-Meter">
         <key name="modify-quick-settings" type="b">
             <default>true</default>
             <summary>Modify bluetooth quickmenu</summary>

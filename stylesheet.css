@@ -276,10 +276,6 @@
  * Тёмная Libadwaita-карточка по мокам Screen 1/2.
  * Пороги заряда: >50% #33d17a, 20-50% #f6d32d, <20% #e01b24. */
 
-.bbm-float-overlay {
-  background-color: rgba(0, 0, 0, 0.45);
-}
-
 .bbm-float-card {
   background-color: rgba(30, 30, 32, 0.97);
   border-radius: 24px;

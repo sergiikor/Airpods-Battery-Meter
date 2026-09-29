@@ -45,6 +45,26 @@
             <property name="subtitle" translatable="yes">Swaps position of battery level icon and percentage text</property>
           </object>
         </child>
+        <child>
+          <object class="AdwSwitchRow" id="airpods_popup_enabled">
+            <property name="title" translatable="yes">Floating connection popup</property>
+            <property name="subtitle" translatable="yes">Show a centered popup with battery levels when the case opens or a BudsLink device connects</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwSpinRow" id="airpods_popup_timeout">
+            <property name="title" translatable="yes">Popup auto-hide timeout</property>
+            <property name="subtitle" translatable="yes">Milliseconds before the popup hides itself (0 = stay until dismissed)</property>
+            <property name="adjustment">
+              <object class="GtkAdjustment">
+                <property name="lower">0</property>
+                <property name="upper">30000</property>
+                <property name="step-increment">500</property>
+                <property name="page-increment">1000</property>
+              </object>
+            </property>
+          </object>
+        </child>
       </object>
     </child>
     <child>

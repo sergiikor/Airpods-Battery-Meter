@@ -19,6 +19,8 @@ export const  QuickSettings = GObject.registerClass({
         'enable_battery_level_text',
         'swap_icon_text',
         'sort_devices_by_history',
+        'airpods_popup_enabled',
+        'airpods_popup_timeout',
     ],
 }, class QuickSettings extends Adw.PreferencesPage {
     constructor(settings) {
@@ -59,6 +61,18 @@ export const  QuickSettings = GObject.registerClass({
             'sort-devices-by-history',
             this._sort_devices_by_history,
             'active',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+        this._settings.bind(
+            'airpods-popup-enabled',
+            this._airpods_popup_enabled,
+            'active',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+        this._settings.bind(
+            'airpods-popup-timeout',
+            this._airpods_popup_timeout,
+            'value',
             Gio.SettingsBindFlags.DEFAULT
         );
 

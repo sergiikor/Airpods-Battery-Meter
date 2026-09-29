@@ -271,3 +271,116 @@
   margin-top: 12px;
   margin-bottom: 4px;
 }
+
+/* ================= Modern AirPods UI (fork) =================
+ * Тёмная Libadwaita-карточка по мокам Screen 1/2.
+ * Пороги заряда: >50% #33d17a, 20-50% #f6d32d, <20% #e01b24. */
+
+.bbm-float-overlay {
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+.bbm-float-card {
+  background-color: rgba(30, 30, 32, 0.97);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+  width: 500px;
+}
+
+.bbm-float-box {
+  padding: 20px 22px 18px 22px;
+  spacing: 14px;
+}
+
+.bbm-float-header {
+  spacing: 10px;
+}
+
+.bbm-float-title {
+  font-size: 1.25em;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.bbm-float-badge {
+  font-size: 0.8em;
+  font-weight: 600;
+  color: #33d17a;
+  background-color: rgba(51, 209, 122, 0.14);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
+.bbm-float-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.10);
+  color: rgba(255, 255, 255, 0.75);
+}
+.bbm-float-close:hover {
+  background-color: rgba(255, 255, 255, 0.20);
+  color: #ffffff;
+}
+
+.bbm-float-hero {
+  background-color: rgba(255, 255, 255, 0.04);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  min-height: 300px;
+}
+
+.bbm-hero-frames {
+  background-color: transparent;
+  border: none;
+}
+
+.bbm-float-battery-row {
+  spacing: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 12px 8px;
+}
+
+.bbm-float-cell {
+  spacing: 4px;
+}
+
+.bbm-float-cell-label {
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.bbm-ring-value {
+  font-size: 1.0em;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.bbm-ring-caption {
+  font-size: 0.8em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.bbm-float-footer {
+  spacing: 10px;
+}
+
+.bbm-float-codec {
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.bbm-float-sound-btn {
+  font-size: 0.85em;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.10);
+  border-radius: 12px;
+  padding: 8px 14px;
+}
+.bbm-float-sound-btn:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+}

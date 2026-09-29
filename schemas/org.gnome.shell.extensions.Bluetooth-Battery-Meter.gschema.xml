@@ -123,5 +123,13 @@
             <default>false</default>
             <summary>"hides budslink from background apps"</summary>
         </key>
+        <key name="airpods-popup-enabled" type="b">
+            <default>true</default>
+            <summary>Show floating connection popup when case opens or device connects</summary>
+        </key>
+        <key name="airpods-popup-timeout" type="i">
+            <default>4000</default>
+            <summary>Floating popup auto-hide timeout in milliseconds (0 = stay until dismissed)</summary>
+        </key>
     </schema>
 </schemalist>

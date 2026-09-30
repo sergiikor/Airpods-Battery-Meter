@@ -128,7 +128,7 @@
             <summary>Show floating connection popup when case opens or device connects</summary>
         </key>
         <key name="airpods-popup-timeout" type="i">
-            <default>7000</default>
+            <default>9500</default>
             <summary>Floating popup auto-hide timeout in milliseconds (0 = stay until dismissed)</summary>
         </key>
     </schema>

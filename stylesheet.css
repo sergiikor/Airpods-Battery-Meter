@@ -369,14 +369,7 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* ================= Modern submenu (fork) ================= */
-
-.bbm-menu-hero {
-  background-color: rgba(255, 255, 255, 0.04);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  margin: 2px 0 10px 0;
-}
+/* ================= Modern submenu (fork): hero живёт в попапе ================= */
 
 .bbm-hero-frames {
   background-color: transparent;
@@ -409,13 +402,11 @@
   padding: 6px 2px;
 }
 
-/* ---- submenu width + active segment + CA switch ---- */
+/* ---- submenu: active segment + CA switch (на сером, без карточек) ---- */
 
 .bbm-popup-menu-box {
-  background-color: rgba(28, 28, 30, 0.97);
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  padding: 12px 12px 14px 12px;
+  min-width: 15em;
+  background-color: transparent;
 }
 
 .bbm-toggle-button:checked {
@@ -442,7 +433,7 @@
 }
 
 .bbm-ca-title {
-  font-size: 0.9em;
+  font-size: 0.82em;
   font-weight: 600;
 }
 
@@ -491,4 +482,11 @@
 .bbm-modern-battery-caption {
   font-size: 0.85em;
   color: rgba(255, 255, 255, 0.6);
+}
+
+/* ---- popup controls ---- */
+
+.bbm-float-controls {
+  spacing: 10px;
+  margin-top: 2px;
 }

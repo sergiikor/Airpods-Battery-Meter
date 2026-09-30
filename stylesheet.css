@@ -16,6 +16,7 @@
 }
 .bbm-panel-popupmenuitem {
   width: 16em;
+  min-width: 335px;
 }
 .bbm-bt-widget {
   margin-left: 4px;

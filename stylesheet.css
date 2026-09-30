@@ -8,6 +8,7 @@
   margin-bottom: 6px;
   background-color: rgba(128, 128, 128, 0.2) !important;
   color: inherit !important;
+  min-width: 335px;
 }
 .bbm-submenu.open:hover {
   background-color: rgba(128, 128, 128, 0.2) !important;

@@ -119,11 +119,14 @@
 .bbm-toggle-button {
   background-color: transparent;
   border-radius: 5px;
-  padding: 2px;
-  min-height: 1.75em;
-  min-width: 3.4em;
-  height: 1.75em;
-  width: 3.4em;
+  padding: 8px 6px;
+  min-height: 2.75em;
+  min-width: 4em;
+  height: 2.75em;
+  width: 4em;
+}
+.bbm-toggle-button StIcon {
+  icon-size: 22px;
 }
 .bbm-toggle-button:hover {
   background-color: rgba(128, 128, 128, 0.4);
@@ -139,8 +142,8 @@
 }
 .bbm-toggle-label {
   font-weight: bold;
-  padding-bottom: 8px;
-  font-size: 0.75em;
+  padding-bottom: 10px;
+  font-size: 0.95em;
   max-width: 14.6em;
 }
 .bbm-box {

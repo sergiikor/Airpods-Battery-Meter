@@ -131,8 +131,11 @@ window.renderAt=function(time){
       b.pivot.scale.setScalar(Math.max(budS,0.0001));
     }
     // кейс остаётся, в финале уезжает вправо + вращение вокруг своей оси
+    // лёгкий присед кейса в момент вылета бадов (t=2.05..3.25)
+    const dipT=Math.min(Math.max((t-2.05)/1.2,0),1);
+    const caseDip=-0.005*Math.sin(dipT*Math.PI);
     caseP.pivot.position.set(
-      caseP.base.x+0.052*split, caseP.base.y+enterY, caseP.base.z);
+      caseP.base.x+0.052*split, caseP.base.y+enterY+caseDip, caseP.base.z);
     caseP.pivot.rotation.set(0,Math.sin(idle*(Math.PI*2/5)+0.3)*0.08,0);
     caseP.pivot.scale.setScalar(Math.max(1-0.1*split,0.0001));
     // camera push

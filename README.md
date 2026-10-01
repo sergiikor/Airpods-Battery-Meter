@@ -1,38 +1,62 @@
+# Airpods Battery Meter
 
-## Bluetooth Battery Meter extension for GNOME shell
-<br>
-<br>
-<picture>
-<img src="https://github.com/maniacx/Bluetooth-Battery-Meter/blob/Documentation/assets/images/home/main.png" width="100%">
-</picture>
-<br>
-<br>
-<br>
+Расширение GNOME Shell: индикатор заряда Bluetooth-наушников в трее
+и всплывающий попап подключения в стиле Apple.
 
-[<img src="https://github.com/maniacx/Bluetooth-Battery-Meter/blob/Documentation/assets/images/home/get-it-on-gnome-extension.png" width="35%">](https://extensions.gnome.org/extension/6670/bluetooth-battery-meter/)
+Форк [Bluetooth Battery Meter](https://github.com/maniacx/Bluetooth-Battery-Meter)
+(maniacx, GPL-3.0): вся логика опроса устройств сохранена, интерфейс
+перерисован. Ставится **рядом** с оригиналом (свой uuid, свои настройки).
 
-<br>
+## Что умеет
 
-[<img src="https://github.com/maniacx/Bluetooth-Battery-Meter/blob/Documentation/assets/images/home/readme.png" width="35%">](https://maniacx.github.io/Bluetooth-Battery-Meter/)
+- **Попап при открытии кейса / подключении**: тёмная карточка из топ-бара —
+  3D-анимация (кейс вылетает, бады поднимаются и парят), кольца заряда
+  Left / Right / Case, живые Noise Control и Conversation Awareness.
+  Закрытие: крестик / клик мимо / Escape / автоскрытие (пауза при наведении).
+- **Меню в трее**: раскрывается само (одно устройство), зацикленная
+  3D-анимация, ровный ряд колец (неизвестно — пунктир), те же режимы.
+- **Индикаторы**: уровни каждого элемента в топ-баре и quick settings.
+- Пороги цвета: `>50%` зелёный, `20–50%` жёлтый, `<20%` красный.
 
+## Требования
 
+- GNOME Shell 46–51 (проверено на 51, Wayland).
+- Для AirPods / Beats / Sony / Galaxy Buds / Bose / Xiaomi и др. —
+  запущенный [BudsLink](https://github.com/maniacx/BudsLink)
+  (flatpak), как и в оригинале начиная с v48:
+  `flatpak install flathub io.github.maniacx.BudsLink`
+- Некоторым устройствам нужен experimental-режим BlueZ —
+  подробности в [документации оригинала](https://maniacx.github.io/Bluetooth-Battery-Meter/).
 
+## Установка
 
-**Note!**
-Starting with Bluetooth Battery Meter v48, device-specific features for AirPods, Sony, Samsung Galaxy Buds, Nothing/CMF, Bose, Redmi/Xiaomi, Sennheiser, and other supported devices now require the BudsLink Flatpak app to be installed.
+```sh
+./install.sh
+```
 
-This was not a change I made lightly. Over time, the device-specific code in the extension grew considerably, including low-level Bluetooth communication and protocol handling. Keeping all of this inside a GNOME Shell extension was becoming increasingly difficult to maintain, test, and review.
+Дальше: выйти/войти в сессию → `gnome-extensions enable Airpods-Battery-Meter@sergii`.
+Настройки: приложение «Расширения» → Airpods Battery Meter, либо
+`dconf-editor` → `/org/gnome/shell/extensions/Airpods-Battery-Meter/`
+(`airpods-popup-enabled`, `airpods-popup-timeout` в миллисекундах,
+`0` — висеть до закрытия вручную).
 
-Moving this functionality to the BudsLink Flatpak app allows the extension to remain lightweight.
+Настройки от оригинала не переносятся (другая схема) — список
+устройств и режимы подхватятся сами при первом подключении.
 
-I want to apologize for this change and for any inconvenience it may cause existing users. However, I believe this is a better approach in terms of keeping the GNOME extension lightweight, maintaining documentation and translations, and making it easier to add support for new devices and features.
+## Устройство проекта
 
-I understand that requiring an additional application is less convenient than having everything built directly into the extension. I appreciate everyone who has been using Bluetooth Battery Meter and supporting the project.
+```
+extension.js / prefs.js        точка входа и настройки
+lib/                           логика апстрима (опрос BlueZ/UPower/BudsLink)
+lib/modern/                    новый UI: попап, кольца, триггер, hero-плеер
+assets/anim/{intro,connect}/   покадровые 3D-анимации + preview.mp4 + README
+assets/models/                 исходная 3D-модель (airpods_4.glb)
+```
 
-Thank you for your understanding and patience as I make this transition.
+Рендер кадров: `../rust_projects/hello_world/airpods_anim/`
+(Three.js → PNG → ffmpeg). В Shell нет WebGL, поэтому крутим
+готовые кадры через `St.DrawingArea` + cairo.
 
+## Лицензия
 
-
-**Note!**: Translations have been moved to Weblate.
-
-
+GPL-3.0, как у оригинала. См. `LICENSE`.

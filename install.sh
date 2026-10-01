@@ -1,49 +1,43 @@
 #!/usr/bin/env bash
-
-# Change working directory to project folder
+#
+# Airpods Battery Meter — установка из исходников.
+# Не требует прав root, ставит в ~/.local/share/gnome-shell/extensions.
+#
+set -e
 cd "${0%/*}"
 
 EXT_NAME="Airpods Battery Meter"
 EXT_UUID="Airpods-Battery-Meter@sergii"
 
-if ! command -v msgfmt &> /dev/null
-then
-    echo "Missing gettext!!!"
-    echo "Please install gettext and re-run this installer."
-    echo "Press any key to exit..."
-    read -n1
-    exit 1
-fi
+need() {
+    command -v "$1" &> /dev/null || {
+        echo "Не найдено: $1. Установи пакет и запусти снова."
+        echo "  Fedora: sudo dnf install $2"
+        echo "  Ubuntu/Debian: sudo apt install $2"
+        exit 1
+    }
+}
 
-echo "Packing extension..."
+need msgfmt gettext
+need gnome-extensions "gnome-shell (пакет gnome-extensions)"
+
+echo "==> Сборка ${EXT_NAME}..."
 gnome-extensions pack ./ \
     --extra-source=icons/ \
     --extra-source=lib/ \
     --extra-source=preferences/ \
     --extra-source=ui/ \
     --extra-source=assets/ \
-    --extra-source=script/ \
     --podir=po \
-    --force \
+    --force
 
-if [ $? -ne 0 ]; then 
-    echo "Error occur during compilation of Gnome Extension ${EXT_NAME}."
-    echo "Press any key to exit..."
-    read -n1
-    exit $?
-fi
+echo "==> Установка..."
+gnome-extensions install "${EXT_UUID}.shell-extension.zip" --force
+rm -f "${EXT_UUID}.shell-extension.zip"
 
-echo "Installing extension..."
-gnome-extensions install $EXT_UUID.shell-extension.zip --force
-
-if [ $? -ne 0 ]; then 
-    read -n1
-    exit $?
-fi
-
-echo "Gnome Extension $EXT_NAME was succesfully installed."
-echo "Restart the shell (or logout) to be able to enable the extension."
-echo "Press any key to exit..."
-read -n1
-exit 0
-
+echo
+echo "Готово. Дальше:"
+echo "  1. Выйди из сессии и войди заново (на Wayland расширения подхватываются при входе)."
+echo "  2. Включи: gnome-extensions enable ${EXT_UUID}"
+echo "  3. Для AirPods/Sony/Galaxy Buds и др. нужен запущенный BudsLink (flatpak):"
+echo "     flatpak install flathub io.github.maniacx.BudsLink"

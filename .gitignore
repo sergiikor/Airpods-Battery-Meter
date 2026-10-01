@@ -1,2 +1,4 @@
 *.shell-extension.zip
 assets/preview_frames/
+
+node_modules/

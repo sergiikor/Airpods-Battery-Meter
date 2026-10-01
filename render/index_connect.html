@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<style>
+  html,body{margin:0;padding:0;background:#242424;width:1280px;height:800px;overflow:hidden;font-family:Inter,Roboto,Arial,sans-serif}
+  #app{position:relative;width:1280px;height:800px;background:#242424;border-radius:64px;overflow:hidden}
+  canvas{position:absolute;inset:0;width:1280px;height:800px;display:block}
+  .title{position:absolute;top:46px;left:0;right:0;text-align:center;color:#fff;font-size:58px;font-weight:600;letter-spacing:1px;z-index:10}
+  .close{position:absolute;top:46px;right:56px;width:64px;height:64px;border-radius:50%;background:#4a4a4a;color:#bbb;font-size:38px;line-height:64px;text-align:center;z-index:10}
+  .stats{position:absolute;left:0;right:0;top:0;bottom:0;opacity:0;z-index:10;text-shadow:0 2px 12px #000;pointer-events:none}
+  .cell{position:absolute;bottom:52px;transform:translateX(-50%);text-align:center}
+  #cellL{left:17%} #cellR{left:35%} #cellC{left:76%}
+  .name{color:#bbb;font-size:26px;margin-bottom:6px}
+  .row{color:#eee;font-size:34px;display:flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap}
+  .col{display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+  .row{color:#eee;font-size:40px;display:flex;align-items:center;gap:14px}
+  .bat{width:74px;height:36px;border:3px solid #fff;border-radius:9px;position:relative;display:inline-block;box-sizing:border-box}
+  .bat:after{content:'';position:absolute;right:-11px;top:7px;width:6px;height:14px;background:#fff;border-radius:0 4px 4px 0}
+  .fill{position:absolute;left:4px;top:4px;bottom:4px;background:#22c55e;border-radius:4px}
+  .lab{color:#ddd}
+</style>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+</head>
+<body>
+<div id="app">
+  <div class="title">AirPods</div>
+  <div class="close">×</div>
+  <div class="stats" id="stats">
+    <div class="cell" id="cellL"><div class="name">Left</div><div class="row"><span class="bat"><span class="fill" style="width:52px"></span></span><span>99%</span></div></div>
+    <div class="cell" id="cellR"><div class="name">Right</div><div class="row"><span class="bat"><span class="fill" style="width:52px"></span></span><span>99%</span></div></div>
+    <div class="cell" id="cellC"><div class="name">Case</div><div class="row"><span class="bat"><span class="fill" style="width:22px"></span></span><span>36%</span></div></div>
+  </div>
+</div>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const W=1280,H=800,DUR=9.0;
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+renderer.setSize(W,H);renderer.setPixelRatio(1);
+renderer.setClearColor(0x000000,1);
+renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
+document.getElementById('app').prepend(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x242424);
+const camera=new THREE.PerspectiveCamera(30,W/H,0.01,10);
+camera.position.set(0,0.01,0.52);
+const pmrem=new THREE.PMREMGenerator(renderer);
+scene.environment=pmrem.fromScene(new RoomEnvironment(),0.04).texture;
+scene.add(new THREE.HemisphereLight(0xffffff,0x222222,0.9));
+const key=new THREE.DirectionalLight(0xffffff,2.2);key.position.set(2,3,4);scene.add(key);
+const rim=new THREE.DirectionalLight(0x88aaff,0.8);rim.position.set(-3,2,-2);scene.add(rim);
+
+let leftBud=null,rightBud=null,caseGroup=null,modelRoot=null;
+const easeIO=t=>t<0?0:t>1?1:t*t*(3-2*t);
+const smoother=t=>{t=Math.min(Math.max(t,0),1);return t*t*t*(t*(t*6-15)+10);};
+const easeOut=t=>{t=Math.min(Math.max(t,0),1);return 1-Math.pow(1-t,3);};
+const back=t=>{t=Math.min(Math.max(t,0),1);const c=1.70158;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2);};
+window.setTransparent=function(v){
+  scene.background=v?null:new THREE.Color(0x242424);
+  renderer.setClearColor(0x000000,v?0:1);
+  document.getElementById('app').style.background=v?'transparent':'#242424';
+  document.body.style.background=v?'transparent':'#242424';
+  document.documentElement.style.background=v?'transparent':'#242424';
+  for(const s of ['.title','.close','.stats'])
+    document.querySelector(s).style.display=v?'none':'';
+};
+
+function lift(obj){
+  // выносим объект на пивот в пространстве modelRoot (без ужимающих трансформов),
+  // центр пивота — в центр объекта: вращение идёт вокруг своей оси
+  const pivot=new THREE.Group();
+  modelRoot.add(pivot);
+  pivot.attach(obj);
+  const C=new THREE.Box3().setFromObject(obj).getCenter(new THREE.Vector3());
+  const Cr=pivot.worldToLocal(C.clone());
+  obj.position.sub(Cr);
+  pivot.position.copy(Cr);
+  return {pivot: pivot, base: Cr.clone()};
+}
+let budL=null,budR=null,caseP=null;
+function findRoots(gltf){
+  const root=gltf.scene;scene.add(root);modelRoot=root;
+  leftBud=root.getObjectByName('oTgukKFHsbAaGBa');
+  rightBud=root.getObjectByName('MSpBhwzeYpJKGDV');
+  caseGroup=root.getObjectByName('PxcMCoFCCTCdsTC');
+  if(!leftBud||!rightBud||!caseGroup){
+    console.log('fallback split');
+  }
+  root.updateMatrixWorld(true);
+  budL=lift(leftBud); budR=lift(rightBud); caseP=lift(caseGroup);
+  root.scale.setScalar(2.3);
+  console.log('found',!!leftBud,!!rightBud,!!caseGroup);
+  window.__ready=true;
+}
+new GLTFLoader().load('./airpods_4.glb',findRoots,undefined,e=>console.log('ERR',e));
+
+const stats=document.getElementById('stats');
+window.renderAt=function(time){
+  const t=Math.min(Math.max(time,0),DUR);
+  if(budL&&budR&&caseP){
+    // 0) кейс С наушниками внутри выезжает снизу, уже вращаясь:
+    //    2 оборота — один по мере появления, один на месте
+    modelRoot.scale.setScalar(2.3);
+    modelRoot.visible=true;
+    const rigid=smoother((t-0.2)/2.2)*Math.PI*2;
+    modelRoot.rotation.y=rigid;
+    const enterY=-0.11*(1-easeOut(t/1.6));
+    // 1) наушники выскакивают из кейса с собственным вращением
+    //    в противоположных направлениях (как у Xiaomi)
+    //    (смещения — в единицах modelRoot: мир = x2.0)
+    const pop=easeIO((t-2.05)/1.0);
+    const popY=back((t-2.05)/1.0);
+    const split=0; // connect-вариант для меню: без разъезжания, бады висят над кейсом
+    const idle=Math.max(t-3.0,0);
+    const selfSpin=easeIO((t-2.05)/1.1)*Math.PI*2;
+    const budsDX=-0.04*split;                             // финал: наушники влево
+    const budsDY=-0.02+0.028*Math.min(Math.max(popY,0),1.05)-0.033*split;
+    const budS=1-0.1*split;
+    // в финале всё вращается синхронно в одну сторону с одной скоростью:
+    // кейс — вокруг своей оси, каждый наушник — вокруг своей
+    const sway=Math.sin(idle*(Math.PI*2/5))*0.38;
+    const buds=[[-0.010,budL,1],[0.010,budR,-1]];
+    for(const [dx,b,dir] of buds){
+      b.pivot.position.set(
+        b.base.x+(dx*pop+budsDX),
+        b.base.y+budsDY+enterY,
+        b.base.z);
+      b.pivot.rotation.set(0,dir*selfSpin+dir*sway,0);
+      b.pivot.scale.setScalar(Math.max(budS,0.0001));
+    }
+    // кейс остаётся, в финале уезжает вправо + вращение вокруг своей оси
+    caseP.pivot.position.set(
+      caseP.base.x+0.052*split, caseP.base.y+enterY, caseP.base.z);
+    caseP.pivot.rotation.set(0,Math.sin(idle*(Math.PI*2/5)+0.3)*0.08,0);
+    caseP.pivot.scale.setScalar(Math.max(1-0.1*split,0.0001));
+    // camera push
+    camera.position.z=0.56-0.06*easeIO(Math.min(t,4.0)/DUR);
+    camera.lookAt(-0.005*split,0.01,0);
+    window.__last={split:split,rigid:rigid};
+  }
+  stats.style.opacity=easeIO((t-3.7)/0.6);
+  renderer.render(scene,camera);
+};
+window.__dur=DUR;
+window.__world=function(){
+  const out={};
+  const v=new THREE.Vector3();
+  for(const [k,o] of [['L',leftBud],['R',rightBud],['C',caseGroup]]){
+    o.getWorldPosition(v);
+    const bb=new THREE.Box3().setFromObject(o);
+    const c=bb.getCenter(new THREE.Vector3());
+    out[k]={pos:v.toArray().map(n=>+n.toFixed(4)),boxC:c.toArray().map(n=>+n.toFixed(4)),
+      chain:(()=>{let n=o,p=[];while(n&&p.length<6){p.push(n.name||n.type);n=n.parent;}return p;})()};
+  }
+  return out;
+};
+</script>
+</body>
+</html>
